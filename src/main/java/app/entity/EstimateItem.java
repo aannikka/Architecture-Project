@@ -20,7 +20,7 @@ public class EstimateItem {
     private Long id;
 
     @Column(name = "quantity", nullable = false)
-    private double quantity;
+    private BigDecimal quantity;
 
     @Column(name = "unit_price", nullable = false)
     private BigDecimal unitPrice;
