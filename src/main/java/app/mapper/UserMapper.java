@@ -3,7 +3,9 @@ package app.mapper;
 import app.dto.request.UserRequest;
 import app.dto.response.UserResponse;
 import app.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
     public User toEntity(UserRequest request) {
