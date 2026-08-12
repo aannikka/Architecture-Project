@@ -25,9 +25,9 @@ public class MaterialController {
                 .body(materialService.create(request));
     }
 
-    @PutMapping("{/id}")
+    @PutMapping("/{id}")
     public ResponseEntity<MaterialResponse> update(@PathVariable Long id, @Valid @RequestBody MaterialRequest request){
-        return  ResponseEntity.ok(materialService.update(id,request));
+        return ResponseEntity.ok(materialService.update(id,request));
     }
 
     @GetMapping("/{id}")
