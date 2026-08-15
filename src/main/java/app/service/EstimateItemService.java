@@ -36,12 +36,18 @@ public class EstimateItemService {
         EstimateItem item = getEstimateItem(id);
         Material material = getMaterial(request.materialId());
         Estimate estimate = getEstimate(request.estimateId());
+
+        if (!item.getMaterial().getId().equals(material.getId())) {
+            item.setMaterial(material);
+            item.setUnitPrice(material.getPrice());
+        }
+
         item.setQuantity(request.quantity());
-        item.setMaterial(material);
         item.setEstimate(estimate);
 
-        item.setUnitPrice(material.getPrice());
-        item.setTotalPrice(material.getPrice().multiply(request.quantity()));
+        item.setTotalPrice(
+                item.getUnitPrice().multiply(request.quantity())
+        );
 
         EstimateItem updated = estimateItemRepository.save(item);
         return mapper.toResponse(updated);
