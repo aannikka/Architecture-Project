@@ -4,5 +4,7 @@ public record BuildingShortResponse(
         Long id,
         double length,
         double width,
-        String roofType
+        int floors,
+        String roofType,
+        String foundationType
 ){}

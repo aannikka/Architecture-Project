@@ -37,7 +37,9 @@ public class ProjectMapper {
                                 project.getBuilding().getId(),
                                 project.getBuilding().getLength(),
                                 project.getBuilding().getWidth(),
-                                project.getBuilding().getRoofType().name()
+                                project.getBuilding().getFloors(),
+                                project.getBuilding().getRoofType().name(),
+                                project.getBuilding().getFoundationType().name()
                         )
         );
     }
