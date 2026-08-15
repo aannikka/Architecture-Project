@@ -13,6 +13,7 @@ import app.repository.MaterialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,11 +30,15 @@ public class EstimateItemService {
         Estimate estimate = getEstimate(request.estimateId());
         EstimateItem estimateItem = mapper.toEntity(request,material,estimate);
         EstimateItem saved = estimateItemRepository.save(estimateItem);
+        recalculateEstimateTotal(estimate);
         return mapper.toResponse(saved);
     }
 
     public EstimateItemResponse update(Long id, EstimateItemRequest request) {
         EstimateItem item = getEstimateItem(id);
+
+        Estimate oldEstimate = item.getEstimate();
+
         Material material = getMaterial(request.materialId());
         Estimate estimate = getEstimate(request.estimateId());
 
@@ -44,12 +49,16 @@ public class EstimateItemService {
 
         item.setQuantity(request.quantity());
         item.setEstimate(estimate);
-
         item.setTotalPrice(
                 item.getUnitPrice().multiply(request.quantity())
         );
 
         EstimateItem updated = estimateItemRepository.save(item);
+        recalculateEstimateTotal(oldEstimate);
+
+        if (!oldEstimate.getId().equals(estimate.getId())) {
+            recalculateEstimateTotal(estimate);
+        }
         return mapper.toResponse(updated);
     }
 
@@ -65,7 +74,10 @@ public class EstimateItemService {
     }
 
     public void deleteById(Long id) {
-        estimateItemRepository.delete(getEstimateItem(id));
+        EstimateItem item = getEstimateItem(id);
+        Estimate estimate = item.getEstimate();
+        estimateItemRepository.delete(item);
+        recalculateEstimateTotal(estimate);
     }
 
     private Material getMaterial(Long id) {
@@ -82,5 +94,16 @@ public class EstimateItemService {
     private EstimateItem getEstimateItem(Long id) {
         return estimateItemRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(
                 String.format("Estimate item with id %d not found", id)));
+    }
+
+    private void recalculateEstimateTotal(Estimate estimate) {
+        BigDecimal total = estimateItemRepository
+                .findAllByEstimateId(estimate.getId())
+                .stream()
+                .map(EstimateItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        estimate.setTotalPrice(total);
+        estimateRepository.save(estimate);
     }
 }

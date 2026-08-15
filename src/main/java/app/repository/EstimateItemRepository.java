@@ -4,5 +4,9 @@ import app.entity.EstimateItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface EstimateItemRepository extends JpaRepository<EstimateItem,Long> {}
+public interface EstimateItemRepository extends JpaRepository<EstimateItem,Long> {
+    List<EstimateItem> findAllByEstimateId(Long estimateId);
+}
