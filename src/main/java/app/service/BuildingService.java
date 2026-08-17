@@ -47,6 +47,13 @@ public class BuildingService {
         return mapper.toResponse(getBuilding(id));
     }
 
+    public List<BuildingResponse> findByProjectId(Long projectId) {
+        return buildingRepository.findByProjectId(projectId)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
+    }
+
     public List<BuildingResponse> findAll() {
         return buildingRepository.findAll()
                 .stream()

@@ -34,6 +34,15 @@ public class BuildingController {
         return ResponseEntity.ok(buildingService.findById(id));
     }
 
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<List<BuildingResponse>> findByProjectId(
+            @PathVariable Long projectId
+    ) {
+        return ResponseEntity.ok(
+                buildingService.findByProjectId(projectId)
+        );
+    }
+
     @GetMapping
     public ResponseEntity<List<BuildingResponse>> findAll() {
         return ResponseEntity.ok(buildingService.findAll());

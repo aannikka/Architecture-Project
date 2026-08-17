@@ -42,7 +42,7 @@ public class Building {
     @Enumerated(EnumType.STRING)
     private FoundationType foundationType;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="project_id", unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="project_id", nullable = false)
     private Project project;
 }

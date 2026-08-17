@@ -2,6 +2,7 @@ package app.mapper;
 
 import app.dto.request.BuildingRequest;
 import app.dto.response.BuildingResponse;
+import app.dto.shorts.BuildingShortResponse;
 import app.entity.Building;
 import app.entity.Project;
 
@@ -32,6 +33,17 @@ public class BuildingMapper {
                 building.getFloors(),
                 building.getFloorHeight(),
                 building.getWallThickness(),
+                building.getRoofType().name(),
+                building.getFoundationType().name()
+        );
+    }
+
+    public BuildingShortResponse toShortResponse(Building building) {
+        return new BuildingShortResponse(
+                building.getId(),
+                building.getLength(),
+                building.getWidth(),
+                building.getFloors(),
                 building.getRoofType().name(),
                 building.getFoundationType().name()
         );
