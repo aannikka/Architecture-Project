@@ -13,6 +13,7 @@ public class BuildingMapper {
 
     public Building toEntity(BuildingRequest request, Project project) {
         return Building.builder()
+                .name(request.name())
                 .length(request.length())
                 .width(request.width())
                 .floors(request.floors())
@@ -28,6 +29,7 @@ public class BuildingMapper {
     public BuildingResponse toResponse(Building building){
         return new BuildingResponse(
                 building.getId(),
+                building.getName(),
                 building.getLength(),
                 building.getWidth(),
                 building.getFloors(),
@@ -41,6 +43,7 @@ public class BuildingMapper {
     public BuildingShortResponse toShortResponse(Building building) {
         return new BuildingShortResponse(
                 building.getId(),
+                building.getName(),
                 building.getLength(),
                 building.getWidth(),
                 building.getFloors(),

@@ -19,6 +19,9 @@ public class Building {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "length", nullable = false)
     private double length;
 

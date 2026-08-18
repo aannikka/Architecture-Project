@@ -2,6 +2,7 @@ package app.dto.response;
 
 public record BuildingResponse (
     Long id,
+    String name,
     double length,
     double width,
     int floors,
